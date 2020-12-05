@@ -8,3 +8,9 @@ type RootStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
 };
+
+type Message = {
+  text: string;
+  createdAt: firebase.firestore.Timestamp;
+  userId: string;
+};
