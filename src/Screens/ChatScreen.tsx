@@ -14,6 +14,7 @@ import {
   StatusBar, } from "react-native";
 import { useNavigation, RouteProp } from "@react-navigation/native";
 import firebase from "firebase";
+import { ChatItem } from "../ChatItem";
 
 type ChatScreenRouteProps = RouteProp<RootStackParamList, "Chat">;
 type Props = {
@@ -61,7 +62,7 @@ export function ChatScreen(props: Props) {
       ),
     });
   }, [navigation]);
-  
+
   // DBから読み込む
   const getMessageDocRef = async () => {
     return await firebase.firestore().collection("messages").doc();
@@ -129,7 +130,7 @@ export function ChatScreen(props: Props) {
             data={messages}
             inverted={true}
             renderItem={({ item }: { item: Message }) => (
-              <Text>{item.text}</Text>
+              <ChatItem userId={currentUser.uid} item={item} />
             )}
             keyExtractor={(_, index) => index.toString()}
           />
