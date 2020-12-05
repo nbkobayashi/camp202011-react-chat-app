@@ -24,6 +24,44 @@ export function ChatScreen(props: Props) {
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
 
+  const unsubscribe = () => {
+    firebase
+      .firestore()
+      .collection("messages")
+      .orderBy("createdAt")
+      .onSnapshot((snapshot) => {
+      });
+  };
+  //サインアウトの処理
+  const pressedSignOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        unsubscribe();
+        console.log("サインアウトしました");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  //ナビゲーションヘッダーの左側に配置
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            pressedSignOut();
+            back();
+          }}
+        >
+          <Text>Sign Out</Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+  
   // DBから読み込む
   const getMessageDocRef = async () => {
     return await firebase.firestore().collection("messages").doc();
