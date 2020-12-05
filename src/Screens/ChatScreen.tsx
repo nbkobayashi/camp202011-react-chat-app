@@ -1,9 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, RouteProp } from "@react-navigation/native";
 
-export function ChatScreen() {
+type ChatScreenRouteProps = RouteProp<RootStackParamList, "Chat">;
+type Props = {
+  route: ChatScreenRouteProps;
+};
+
+export function ChatScreen(props: Props) {
+  const currentUser = props.route.params.user;
   const navigation = useNavigation();
 
   const back = () => {
@@ -12,7 +18,7 @@ export function ChatScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>ChatScreen!</Text>
+      <Text>{`${currentUser.email}`}でログイン中</Text>
       <StatusBar style="auto" />
     </View>
   );
